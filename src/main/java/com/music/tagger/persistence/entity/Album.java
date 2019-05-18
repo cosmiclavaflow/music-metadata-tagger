@@ -20,7 +20,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "album")
-@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class Album extends MarkedEntity {
 
@@ -28,7 +27,7 @@ public class Album extends MarkedEntity {
     @Column(name = "album_cover_list")
     private List<String> albumCoverList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "artist_id")
     private Artist artist;
 

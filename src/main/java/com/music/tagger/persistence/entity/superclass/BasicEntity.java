@@ -12,7 +12,6 @@ import java.io.Serializable;
 
 @Data
 @MappedSuperclass
-@Accessors(chain = true)
 public abstract class BasicEntity {
 
     @Id

@@ -1,4 +1,4 @@
-package com.music.tagger.dto;
+package com.music.tagger.controller.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;

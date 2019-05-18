@@ -19,7 +19,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "artist")
-@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class Artist extends MarkedEntity {
 

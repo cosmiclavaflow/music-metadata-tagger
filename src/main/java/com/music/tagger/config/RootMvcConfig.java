@@ -1,36 +1,72 @@
 package com.music.tagger.config;
 
-import lombok.extern.log4j.Log4j2;
+import com.music.tagger.controller.dto.SimpleTrackDto;
+import com.music.tagger.interceptor.LoggingInterceptor;
+import com.music.tagger.persistence.entity.Track;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
-import java.security.Permission;
 import java.util.Arrays;
 
 @Slf4j
 @Configuration
-//@Import({JpaPersistenceConfig.class})
+@EnableJpaRepositories(basePackages = {"com.music.tagger.persistence.repository"})
+@EnableTransactionManagement
 @EntityScan("com.music.tagger.persistence.entity")
 public class RootMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper mm = new ModelMapper();
+
+        PropertyMap<SimpleTrackDto, Track> propertyMap = new PropertyMap<SimpleTrackDto, Track> (){
+            protected void configure() {
+//                map(source.getAlbumCover()).getAlbum().setAlbumCoverList(source.getAlbumCover());
+                map().setName(source.getTrackName());
+                map().getAlbum().setName(source.getAlbumName());
+                map().getArtist().setName(source.getArtistName());
+            }
+        };
+
+        mm.addMappings(propertyMap);
+
+/*        mm.getConfiguration().setAmbiguityIgnored(true);
+        mm.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);*/
+
+        return mm;
     }
 
     @Bean
-    public BeanDefinitionRegistryPostProcessor printLoadedBeans(){
+    public LoggingInterceptor loggingInterceptor(){
+        return new LoggingInterceptor();
+    }
+
+    @Bean
+    public ViewResolver internalResourceViewResolver() {
+        InternalResourceViewResolver bean = new InternalResourceViewResolver();
+        bean.setViewClass(JstlView.class);
+        bean.setPrefix("/WEB-INF/view/");
+        bean.setSuffix(".jsp");
+        return bean;
+    }
+
+    @Bean
+    public BeanDefinitionRegistryPostProcessor printLoadedBeans() {
         return new BeanDefinitionRegistryPostProcessor() {
             @Override
             public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry beanDefinitionRegistry) throws BeansException {

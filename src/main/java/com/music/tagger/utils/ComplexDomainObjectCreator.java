@@ -10,7 +10,7 @@ import java.util.Arrays;
 @UtilityClass
 public class ComplexDomainObjectCreator {
 
-    public static Artist getEmptyArtist(){
+    public static Track getEmptyTrack(){
         Artist artist = new Artist();
         Album album = new Album();
         Track track = new Track();
@@ -24,6 +24,6 @@ public class ComplexDomainObjectCreator {
         artist.setTrackList(Arrays.asList(track));
         artist.setAlbumList(Arrays.asList(album));
 
-        return artist;
+        return track;
     }
 }
