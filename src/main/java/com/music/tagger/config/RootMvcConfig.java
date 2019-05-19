@@ -36,18 +36,23 @@ public class RootMvcConfig implements WebMvcConfigurer {
 
         PropertyMap<SimpleTrackDto, Track> propertyMap = new PropertyMap<SimpleTrackDto, Track> (){
             protected void configure() {
-//                map(source.getAlbumCover()).getAlbum().setAlbumCoverList(source.getAlbumCover());
                 map().setName(source.getTrackName());
                 map().getAlbum().setName(source.getAlbumName());
                 map().getArtist().setName(source.getArtistName());
+
+                //force to skip mapper relation mapping fields
+                skip().setAlbum(null);
+                skip().setArtist(null);
+
+                skip().getAlbum().setTrackList(null);
+                skip().getAlbum().setArtist(null);
+
+                skip().getArtist().setAlbumList(null);
+                skip().getArtist().setTrackList(null);
             }
         };
 
         mm.addMappings(propertyMap);
-
-/*        mm.getConfiguration().setAmbiguityIgnored(true);
-        mm.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);*/
-
         return mm;
     }
 

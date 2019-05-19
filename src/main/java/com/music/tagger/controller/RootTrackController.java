@@ -1,13 +1,11 @@
 package com.music.tagger.controller;
 
 import com.music.tagger.controller.dto.SimpleTrackDto;
-import com.music.tagger.exceptions.TrackNotFoundException;
 import com.music.tagger.persistence.entity.Track;
 import com.music.tagger.service.TrackService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 import static com.music.tagger.utils.ComplexDomainObjectCreator.getEmptyTrack;
 
@@ -35,7 +35,7 @@ public class RootTrackController {
 
 
     @PostMapping(value = "/addTrack")
-    public String add(@ModelAttribute("track") SimpleTrackDto trackDto, Model model) {
+    public String add(@ModelAttribute("track") SimpleTrackDto trackDto) {
         Track track = getEmptyTrack();
         modelMapper.map(trackDto, track);
         trackService.saveAndFlush(track);
@@ -49,10 +49,10 @@ public class RootTrackController {
     }
 
     @PutMapping(value = "/{id}")
-    public String updateTrack(@PathVariable("id") long id, @ModelAttribute("track") SimpleTrackDto trackDto) {
-        Track track = getEmptyTrack();
+    public String updateTrack(@PathVariable("id") long id, @ModelAttribute("track") SimpleTrackDto trackDto)
+            throws Exception {
+        Track track = trackService.findById(id);
         modelMapper.map(trackDto, track);
-        track.setId(id);
         trackService.saveAndFlush(track);
         return "Your track is updating";
     }
