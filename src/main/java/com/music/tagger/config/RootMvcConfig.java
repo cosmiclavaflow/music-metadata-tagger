@@ -62,15 +62,6 @@ public class RootMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public ViewResolver internalResourceViewResolver() {
-        InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setViewClass(JstlView.class);
-        bean.setPrefix("/WEB-INF/view/");
-        bean.setSuffix(".jsp");
-        return bean;
-    }
-
-    @Bean
     public BeanDefinitionRegistryPostProcessor printLoadedBeans() {
         return new BeanDefinitionRegistryPostProcessor() {
             @Override

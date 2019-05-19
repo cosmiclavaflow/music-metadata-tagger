@@ -18,7 +18,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "artist")
+@Table(name = "artists")
 @EqualsAndHashCode(callSuper = true)
 public class Artist extends MarkedEntity {
 

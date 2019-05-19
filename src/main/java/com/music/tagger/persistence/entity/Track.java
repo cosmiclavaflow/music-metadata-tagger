@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name = "track")
+@Table(name = "tracks")
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Track extends MarkedEntity {

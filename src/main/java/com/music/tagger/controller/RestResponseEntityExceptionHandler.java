@@ -18,6 +18,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<Object> handleInternal(Exception ex, WebRequest request) {
         log.warn("406 Status Code", ex);
         String bodyOfResponse = "No track with such parameter";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE, request);
     }
 }
