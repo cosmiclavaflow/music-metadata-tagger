@@ -51,7 +51,7 @@ public class RootMvcConfig implements WebMvcConfigurer {
                 skip().getArtist().setTrackList(null);
             }
         };
-
+        
         mm.addMappings(propertyMap);
         return mm;
     }
