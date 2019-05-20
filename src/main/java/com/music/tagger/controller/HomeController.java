@@ -12,7 +12,7 @@ import javax.validation.Valid;
 @RequestMapping("home")
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping("/track")
     public String showHomePage(@Valid Model model){
         model.addAttribute("track", new SimpleTrackDto());
         return "home";
