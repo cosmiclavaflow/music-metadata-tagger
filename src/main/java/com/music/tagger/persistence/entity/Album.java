@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
+@Entity(name = "Album")
 @Table(name = "albums")
 @EqualsAndHashCode(callSuper = true)
 public class Album extends MarkedEntity {

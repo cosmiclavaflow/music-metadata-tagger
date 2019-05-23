@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Data
-@Entity
+@Entity(name = "Track")
 @Table(name = "tracks")
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
