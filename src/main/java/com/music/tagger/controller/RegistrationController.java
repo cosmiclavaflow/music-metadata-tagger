@@ -3,6 +3,7 @@ package com.music.tagger.controller;
 import com.music.tagger.controller.dto.UserDto;
 import com.music.tagger.exceptions.RoleNotFoundException;
 import com.music.tagger.exceptions.UserAlreadyExistException;
+import com.music.tagger.exceptions.UserNotFoundException;
 import com.music.tagger.persistence.entity.User;
 import com.music.tagger.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class RegistrationController {
     @PostMapping("/login")
     public ModelAndView loginUser
             (@ModelAttribute("user") @Valid UserDto userDto,
-             BindingResult result, WebRequest request, Errors errors) {
+             BindingResult result, WebRequest request, Errors errors) throws UserNotFoundException {
         User signedIn = new User();
         if (!result.hasErrors()) {
             signedIn = userService.findUserByEmail(userDto.getEmail());

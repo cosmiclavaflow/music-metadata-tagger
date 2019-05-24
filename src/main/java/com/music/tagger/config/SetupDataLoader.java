@@ -23,9 +23,13 @@ import java.util.List;
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private final UserRepository userRepository;
+
     private final RoleRepository roleRepository;
+
     private final PrivilegeRepository privilegeRepository;
+
     private final PasswordEncoder passwordEncoder;
+
     private boolean alreadySetup = false;
 
     // API
@@ -74,7 +78,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     @Transactional
     public User createUserIfNotFound(final String email, final String firstName, final String lastName, final String password, final List<Role> roles) {
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElse(null);
         if (user == null) {
             user = new User();
             user.setName(firstName + " " + lastName);
